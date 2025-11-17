@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SALESSHARE | Enterprise Sales-as-a-Service for Benelux & Nordics</title>
+  <style>
+    :root {
+      --bg: #050815;
+      --bg-elevated: #0b1020;
+      --accent: #3b82f6;
+      --accent-soft: rgba(59,130,246,0.12);
+      --accent-strong: #2563eb;
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --border-subtle: rgba(148,163,184,0.35);
+      --card-radius: 18px;
+      --shadow-soft: 0 22px 45px rgba(15,23,42,0.65);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", Segoe UI, sans-serif;
+      background: radial-gradient(circle at top, #111827 0, #020617 50%, #020617 100%);
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to bottom, rgba(2,6,23,0.96), rgba(2,6,23,0.85) 55%, transparent);
+      border-bottom: 1px solid rgba(15,23,42,0.75);
+    }
+
+    .nav {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+      position: relative;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+    }
+
+    .chip {
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(148,163,184,0.12);
+      border: 1px solid rgba(148,163,184,0.35);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-muted);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.88rem;
+    }
+
+    a.nav-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 0.3rem 0.6rem;
+      border-radius: 999px;
+      transition: color 0.2s ease, background 0.2s ease;
+    }
+
+    a.nav-link:hover {
+      color: #e5e7eb;
+      background: rgba(15,23,42,0.9);
+    }
+
+    .btn {
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      padding: 0.4rem 1rem;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      text-decoration: none;
+      cursor: pointer;
+      background: linear-gradient(135deg, rgba(15,23,42,0.9), rgba(15,23,42,0.9));
+      color: #e5e7eb;
+      transition: border 0.2s ease, background 0.2s ease, transform 0.1s ease, box-shadow 0.1s ease;
+    }
+
+    .btn-primary {
+      background: radial-gradient(circle at 20% 0, #60a5fa, #1d4ed8 40%, #020617 100%);
+      border-color: rgba(96,165,250,0.8);
+      box-shadow: 0 14px 30px rgba(37,99,235,0.55);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(37,99,235,0.7);
+      border-color: rgba(129,140,248,0.9);
+    }
+
+    .btn-ghost {
+      background: rgba(15,23,42,0.9);
+    }
+
+    .btn-ghost:hover {
+      background: rgba(15,23,42,1);
+    }
+
+    .btn span.icon {
+      font-size: 1.1rem;
+      transform: translateY(1px);
+    }
+
+    main {
+      flex: 1;
+    }
+
+    .section {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 3.5rem 1.5rem;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1.1fr);
+      gap: 3rem;
+      padding-top: 3rem;
+      padding-bottom: 3.5rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.25rem 0.6rem 0.25rem 0.25rem;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.95);
+      border: 1px solid rgba(148,163,184,0.55);
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .eyebrow-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 0, #bef264, #22c55e);
+      box-shadow: 0 0 0 4px rgba(22,163,74,0.4);
+    }
+
+    h1 {
+      font-size: clamp(2.4rem, 3vw + 1.5rem, 3.4rem);
+      line-height: 1.07;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.2rem;
+    }
+
+    h1 span.highlight {
+      background: linear-gradient(120deg, #e5e7eb, #93c5fd, #a855f7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      color: var(--text-muted);
+      font-size: 1rem;
+      max-width: 36rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-subtitle strong {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.75rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .hero-meta-block strong {
+      display: block;
+      color: #e5e7eb;
+      font-size: 0.9rem;
+    }
+
+    .hero-right {
+      position: relative;
+    }
+
+    .hero-card {
+      position: relative;
+      border-radius: 26px;
+      padding: 1.4rem 1.6rem;
+      background: radial-gradient(circle at 0 0, rgba(129,140,248,0.55), transparent 55%),
+                  radial-gradient(circle at 100% 0, rgba(45,212,191,0.5), transparent 52%),
+                  linear-gradient(to bottom right, #020617, #020617);
+      border: 1px solid rgba(148,163,184,0.8);
+      box-shadow: 0 30px 60px rgba(15,23,42,0.9);
+      overflow: hidden;
+    }
+
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-card-title {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: rgba(226,232,240,0.9);
+    }
+
+    .hero-tag {
+      padding: 0.2rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.8);
+      font-size: 0.7rem;
+      border: 1px solid rgba(148,163,184,0.6);
+      color: var(--text-muted);
+    }
+
+    .signal-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.7rem;
+      padding-top: 0.6rem;
+      border-top: 1px dashed rgba(148,163,184,0.35);
+      font-size: 0.8rem;
+    }
+
+    .signal-label {
+      color: #e5e7eb;
+      font-weight: 500;
+    }
+
+    .signal-meta {
+      display: flex;
+      gap: 0.7rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .signal-pill {
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.85);
+      border: 1px solid rgba(148,163,184,0.6);
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .metric {
+      padding: 0.7rem 0.8rem;
+      border-radius: 14px;
+      background: rgba(15,23,42,0.8);
+      border: 1px solid rgba(148,163,184,0.7);
+      font-size: 0.75rem;
+    }
+
+    .metric-label {
+      color: var(--text-muted);
+      margin-bottom: 0.15rem;
+    }
+
+    .metric-value {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .badge-row {
+      margin-top: 1rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      font-size: 0.68rem;
+    }
+
+    .badge {
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.55);
+      background: rgba(15,23,42,0.9);
+      color: var(--text-muted);
+    }
+
+    .badge.highlighted {
+      border-color: rgba(59,130,246,0.9);
+      background: rgba(37,99,235,0.25);
+      color: #e5e7eb;
+    }
+
+    .halo {
+      position: absolute;
+      inset: -30%;
+      background: radial-gradient(circle at 0 0, rgba(56,189,248,0.3), transparent 55%),
+                  radial-gradient(circle at 100% 0, rgba(52,211,153,0.3), transparent 55%),
+                  radial-gradient(circle at 50% 100%, rgba(129,140,248,0.3), transparent 60%);
+      opacity: 0.45;
+      filter: blur(40px);
+      z-index: -1;
+    }
+
+    .section-title-wrap {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 1.5rem;
+      margin-bottom: 1.7rem;
+    }
+
+    .section-eyebrow {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .section-title {
+      font-size: 1.4rem;
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtitle {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      max-width: 26rem;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      font-size: 0.75rem;
+    }
+
+    .pill {
+      padding: 0.2rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.45);
+      color: var(--text-muted);
+    }
+
+    .cards-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.4rem;
+    }
+
+    .card {
+      padding: 1.2rem 1.3rem;
+      border-radius: var(--card-radius);
+      background: radial-gradient(circle at 0 0, rgba(30,64,175,0.6), rgba(15,23,42,1) 55%);
+      border: 1px solid rgba(148,163,184,0.7);
+      box-shadow: var(--shadow-soft);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 0 -20%, rgba(59,130,246,0.28), transparent 58%);
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .card-plain {
+      background: rgba(15,23,42,0.9);
+      border-style: dashed;
+      border-color: rgba(148,163,184,0.7);
+      box-shadow: 0 16px 36px rgba(15,23,42,0.7);
+    }
+
+    .card-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .card-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+    }
+
+    .card h3 {
+      font-size: 1.05rem;
+      margin-bottom: 0.4rem;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.45rem;
+    }
+
+    .card ul {
+      list-style: none;
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      padding-left: 0;
+    }
+
+    .card ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.4rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .card ul li::before {
+      content: "•";
+      font-size: 0.9rem;
+      line-height: 1.1;
+      color: #a5b4fc;
+      margin-top: 0.1rem;
+    }
+
+    .card-footer {
+      margin-top: 0.7rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .logos-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+    }
+
+    .logo-pill {
+      padding: 0.25rem 0.7rem;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(148,163,184,0.7);
+      color: #e5e7eb;
+    }
+
+    .split-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 1.05fr;
+      gap: 1.6rem;
+      align-items: flex-start;
+    }
+
+    .timeline {
+      border-radius: var(--card-radius);
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.95);
+      padding: 1.2rem 1.3rem;
+      box-shadow: 0 18px 40px rgba(15,23,42,0.9);
+    }
+
+    .timeline-row {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 0.9rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px dashed rgba(148,163,184,0.45);
+    }
+
+    .timeline-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .timeline-index {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      background: rgba(15,23,42,0.8);
+    }
+
+    .timeline-row h3 {
+      font-size: 0.98rem;
+      margin-bottom: 0.12rem;
+    }
+
+    .timeline-row p {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+    }
+
+    .about-card {
+      padding: 1.2rem 1.3rem;
+      border-radius: var(--card-radius);
+      background: radial-gradient(circle at 0 0, rgba(129,140,248,0.45), rgba(15,23,42,0.96));
+      border: 1px solid rgba(148,163,184,0.85);
+      box-shadow: 0 22px 45px rgba(15,23,42,1);
+    }
+
+    .about-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+
+    .avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 999px;
+      background: radial-gradient(circle at 15% 0, #e5e7eb, #60a5fa);
+      border: 2px solid rgba(15,23,42,0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #020617;
+      box-shadow: 0 0 0 1px rgba(148,163,184,0.8);
+    }
+
+    .about-title {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .about-name {
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .about-body {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 0.7rem;
+    }
+
+    .about-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem;
+      font-size: 0.74rem;
+    }
+
+    .about-tag {
+      padding: 0.18rem 0.55rem;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.96);
+      color: var(--text-muted);
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.3rem;
+    }
+
+    .quote-card {
+      border-radius: var(--card-radius);
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.95);
+      padding: 1.1rem 1.2rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quote-card::before {
+      content: "C";
+      position: absolute;
+      top: -18px;
+      left: 12px;
+      font-size: 4rem;
+      color: rgba(148,163,184,0.18);
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+
+    .quote-footer {
+      margin-top: 0.7rem;
+      font-size: 0.83rem;
+      color: #e5e7eb;
+    }
+
+    .quote-footer span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    .contact-section {
+      border-top: 1px solid rgba(15,23,42,0.9);
+      background: radial-gradient(circle at 0 0, rgba(37,99,235,0.3), rgba(2,6,23,1));
+    }
+
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 1fr;
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    form {
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    label {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 0.55rem 0.7rem;
+      border-radius: 11px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: rgba(148,163,184,0.8);
+    }
+
+    .contact-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.6rem;
+    }
+
+    footer {
+      border-top: 1px solid rgba(15,23,42,0.9);
+      padding: 1.8rem 1.5rem 2.2rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      background: #020617;
+    }
+
+    .footer-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+    }
+
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: #e5e7eb;
+    }
+
+    /* Mobile nav toggle button */
+    .nav-toggle {
+      display: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.7);
+      background: rgba(15,23,42,0.9);
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 16px;
+      height: 2px;
+      border-radius: 999px;
+      background: #e5e7eb;
+      position: relative;
+    }
+
+    .nav-toggle span::before,
+    .nav-toggle span::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      width: 16px;
+      height: 2px;
+      border-radius: 999px;
+      background: #e5e7eb;
+    }
+
+    .nav-toggle span::before {
+      top: -5px;
+    }
+
+    .nav-toggle span::after {
+      top: 5px;
+    }
+
+    @media (max-width: 960px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-right {
+        order: -1;
+      }
+
+      .cards-grid-3,
+      .split-layout,
+      .contact-layout,
+      .testimonials-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .mobile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      backdrop-filter: blur(2px);
+      z-index: 30;
+    }
+
+    .mobile-overlay.open {
+      display: block;
+    }
+
+    @media (max-width: 640px) {
+      body { font-size: 1.05rem; }
+      h1 { font-size: 2.6rem; }
+      .section-title { font-size: 1.55rem; }
+      .hero-subtitle, .section-subtitle { font-size: 1.05rem; }
+
+      .nav {
+        padding-inline: 1.1rem;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .nav-actions {
+        display: none;
+        position: absolute;
+        top: 100%;
+        right: 1.1rem;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.4rem;
+        padding: 0.6rem 0.8rem;
+        margin-top: 0.4rem;
+        border-radius: 12px;
+        background: rgba(15,23,42,0.98);
+        border: 1px solid rgba(15,23,42,0.9);
+        box-shadow: 0 18px 40px rgba(15,23,42,0.9);
+        z-index: 50;
+      }
+
+      .nav-actions.nav-open {
+        display: flex;
+      }
+
+      .nav-actions .btn {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .hero {
+        padding-top: 2.2rem;
+      }
+
+      .hero-meta {
+        flex-direction: column;
+        gap: 0.9rem;
+      }
+
+      .section {
+        padding-inline: 1.1rem;
+      }
+
+      .section-title-wrap {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <nav class="nav">
+        <div class="logo">
+          
+          <div>
+            <div><span style="color:#ffffff;">SALES</span><span style="color:#2563eb;">SHARE</span></div>
+            <div style="font-size: 0.7rem; color: var(--text-muted); text-transform: none; letter-spacing: 0;">Enterprise Sales-as-a-Service</div>
+          </div>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+          <span></span>
+        </button>
+        <div class="nav-actions">
+          <a href="#how" class="nav-link">How it works</a>
+          <a href="#clients" class="nav-link">Who I work with</a>
+          <a href="#about" class="nav-link">About</a>
+          <a href="#contact" class="btn btn-ghost">Get in touch</a>
+        </div>
+      </nav>
+      <div class="mobile-overlay"></div>
+    </header>
+
+    <main>
+      <section class="section hero" id="top">
+        <div>
+          <div class="eyebrow">
+            <span class="eyebrow-dot"></span>
+            <span>Benelux &amp; Nordics market entry · Fractional VP Sales</span>
+          </div>
+          <h1>
+            Turn complex enterprise sales<br />
+            into <span class="highlight">repeatable revenue</span>
+          </h1>
+          <p class="hero-subtitle">
+            SALESSHARE helps international SaaS and enterprise software companies
+            <strong>land and expand in the Benelux &amp; Nordics</strong> — not by writing decks,
+            but by <strong>owning pipeline, leading deals, and closing the first logos</strong> with you.
+          </p>
+          <div class="hero-ctas">
+            <a href="#contact" class="btn btn-primary">
+              <span>Book an intro call</span>
+              <span class="icon">↗</span>
+            </a>
+            <a href="#how" class="btn btn-ghost">
+              <span>See how SALESSHARE works</span>
+            </a>
+          </div>
+          <div class="hero-meta">
+            <div class="hero-meta-block">
+              <strong>Hands-on, not advisory</strong>
+              From market positioning and value messaging to stakeholder engagement, deal orchestration,
+              and prescriptive selling.
+            </div>
+            <div class="hero-meta-block">
+              <strong>Trusted by global players</strong>
+              Helped establish local presence and revenue growth for Oracle, Salesforce, SugarCRM, Coupa, Seal Software &amp; more.
+            </div>
+          </div>
+        </div>
+        <div class="hero-right">
+          <div class="halo" aria-hidden="true"></div>
+          <div class="hero-card" aria-label="Example go-to-market snapshot">
+            <div class="hero-card-header">
+              <div>
+                <div class="hero-card-title">Benelux Enterprise GTM</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted);">Sample view · 6-month engagement</div>
+              </div>
+              <div class="hero-tag">SALESSHARE cockpit</div>
+            </div>
+
+            <div class="metric-grid">
+              <div class="metric">
+                <div class="metric-label">New qualified pipeline</div>
+                <div class="metric-value">€5.2M</div>
+                <div style="font-size: 0.7rem; color: #6ee7b7;">+4.1x vs. baseline</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Strategic logos engaged</div>
+                <div class="metric-value">11</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">Top 200 Benelux enterprises</div>
+              </div>
+              <div class="metric">
+                <div class="metric-label">Sales cycle impact</div>
+                <div class="metric-value">-28%</div>
+                <div style="font-size: 0.7rem; color: var(--text-muted);">From first contact to signature</div>
+              </div>
+            </div>
+
+            <div class="signal-row">
+              <div>
+                <div class="signal-label">Next best move</div>
+                <div style="font-size: 0.78rem; color: var(--text-muted);">
+                  Align CFO &amp; legal around business case &amp; risk in <strong>2 targeted conversations</strong>.
+                </div>
+              </div>
+              <div class="signal-meta">
+                <span class="signal-pill">Deal coaching</span>
+                <span class="signal-pill">Exec access</span>
+              </div>
+            </div>
+
+            <div class="badge-row">
+              <span class="badge highlighted">First-on-the-ground sales leader</span>
+              <span class="badge">Discovery &amp; value messaging</span>
+              <span class="badge">C-suite stakeholder mapping</span>
+              <span class="badge">Playbooks &amp; repeatability</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="how">
+        <div class="section-title-wrap">
+          <div>
+            <div class="section-eyebrow">What we do</div>
+            <h2 class="section-title">Sales-as-a-Service with skin in the game</h2>
+          </div>
+          <p class="section-subtitle">
+            SALESSHARE combines strategic go-to-market thinking with hands-on execution.
+            The focus: <strong>design the right approach, then carry the bag</strong> until your team is ready to scale.
+          </p>
+        </div>
+
+        <div class="cards-grid-3">
+          <article class="card">
+            <div class="card-content">
+              <div class="card-label">01 · Market entry strategy</div>
+              <h3>Benelux &amp; Nordics launch plan</h3>
+              <p>
+                We map the opportunity, craft a sharp narrative, and decide where to play — by segment, vertical,
+                and ideal customer profile.
+              </p>
+              <ul>
+                <li>Positioning that resonates with local buyers</li>
+                <li>Account lists &amp; territory design from scratch</li>
+                <li>Competitive differentiation vs. local incumbents</li>
+              </ul>
+              <div class="card-footer">
+                Output: focused plays that your founders and early reps can actually run.
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-content">
+              <div class="card-label">02 · Hands-on enterprise sales</div>
+              <h3>Owning pipeline &amp; closing first logos</h3>
+              <p>
+                Acting as your local senior AE / fractional VP Sales, SALESSHARE leads deals from first contact
+                to closed-won.
+              </p>
+              <ul>
+                <li>Discovery, stakeholder mapping &amp; value creation</li>
+                <li>Executive conversations, mutual action plans</li>
+                <li>Commercial design &amp; negotiation support</li>
+              </ul>
+              <div class="card-footer">
+                Focus: complex, multi-stakeholder deals where trust and clarity matter.
+              </div>
+            </div>
+          </article>
+
+          <article class="card card-plain">
+            <div class="card-content">
+              <div class="card-label">03 · Build for repeatability</div>
+              <h3>From heroic deals to a scalable motion</h3>
+              <p>
+                Once the first wins are in, we codify what works and help you hire, onboard,
+                and coach your own local sales team.
+              </p>
+              <ul>
+                <li>Sales playbooks &amp; qualification frameworks</li>
+                <li>Deal reviews, forecasting &amp; pipeline discipline</li>
+                <li>Coaching founders &amp; first sales hires</li>
+              </ul>
+              <div class="card-footer">
+                Goal: a model you can scale without losing quality in the customer experience.
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="clients">
+        <div class="section-title-wrap">
+          <div>
+            <div class="section-eyebrow">Who we work with</div>
+            <h2 class="section-title">For ambitious SaaS &amp; enterprise software teams</h2>
+          </div>
+          <div>
+            <p class="section-subtitle" style="margin-bottom: 0.6rem;">
+              Typically, SALESSHARE partners with international B2B software companies that:
+            </p>
+            <div class="pill-row">
+              <span class="pill">Series A–C funded</span>
+              <span class="pill">Complex, high-value deals</span>
+              <span class="pill">Need a first senior seller in-region</span>
+              <span class="pill">Want to validate Benelux &amp; Nordics</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="split-layout">
+          <div class="card card-plain">
+            <div class="card-content">
+              <div class="card-label">Patterns we see</div>
+              <h3>Common challenges before SALESSHARE steps in</h3>
+              <ul>
+                <li>No local senior seller yet, founders are stretched thin across regions.</li>
+                <li>Strong product-market fit elsewhere, but limited traction in Benelux &amp; Nordics.</li>
+                <li>Deals stall with procurement, legal, or the CFO despite positive feedback.</li>
+                <li>Plenty of activity, but not enough qualified enterprise pipeline.</li>
+              </ul>
+              <div class="card-footer">
+                The result: delayed market entry, missed quarters, and lost strategic logos.
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-content">
+              <div class="card-label">Track record</div>
+              <h3>Experience with global leaders</h3>
+              <p>
+                Before and at SALESSHARE, René helped build and grow territories for
+                established and fast-growing software companies.
+              </p>
+              <div class="logos-row" style="margin-top: 0.6rem;">
+                <span class="logo-pill">Oracle</span>
+                <span class="logo-pill">Salesforce</span>
+                <span class="logo-pill">SugarCRM</span>
+                <span class="logo-pill">Coupa</span>
+                <span class="logo-pill">Seal Software</span>
+              </div>
+              <div class="card-footer" style="margin-top: 0.9rem;">
+                This combination of large vendor and scale-up experience means you get
+                <strong>enterprise-grade rigor</strong> with <strong>scale-up agility</strong>.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="about">
+        <div class="section-title-wrap">
+          <div>
+            <div class="section-eyebrow">About SALESSHARE</div>
+            <h2 class="section-title">Led by René Appeldorn</h2>
+          </div>
+          <p class="section-subtitle">
+            A "first-on-the-ground" enterprise sales leader with a track record of building
+            territories from scratch and turning complex propositions into clear, measurable outcomes.
+          </p>
+        </div>
+
+        <div class="split-layout">
+          <div class="timeline" aria-label="Engagement model">
+            <div class="section-eyebrow" style="margin-bottom: 0.4rem;">Engagement flow</div>
+            <h3 style="font-size: 1.05rem; margin-bottom: 0.6rem;">How a typical engagement works</h3>
+
+            <div class="timeline-row">
+              <div class="timeline-index">1</div>
+              <div>
+                <h3>Deep-dive discovery</h3>
+                <p>
+                  Understand your product, current GTM, ICP, and strategic goals.
+                  Review existing pipeline, messaging, and key accounts.
+                </p>
+              </div>
+            </div>
+
+            <div class="timeline-row">
+              <div class="timeline-index">2</div>
+              <div>
+                <h3>Focused go-to-market plan</h3>
+                <p>
+                  Define target accounts, entry points, and a clear narrative for the region.
+                  Align on success metrics and engagement model.
+                </p>
+              </div>
+            </div>
+
+            <div class="timeline-row">
+              <div class="timeline-index">3</div>
+              <div>
+                <h3>Hands-on execution</h3>
+                <p>
+                  Run outreach, meetings, and deal cycles with your team.
+                  Regular deal reviews and board-ready updates.
+                </p>
+              </div>
+            </div>
+
+            <div class="timeline-row">
+              <div class="timeline-index">4</div>
+              <div>
+                <h3>Scale &amp; handover</h3>
+                <p>
+                  Translate wins into a repeatable model, then help you hire and ramp your own local team.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="about-card">
+            <div class="about-header">
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <div class="avatar">R</div>
+                <div>
+                  <div class="about-title">Founder &amp; Principal</div>
+                  <div class="about-name">René Appeldorn</div>
+                </div>
+              </div>
+              <div class="chip">Based in the Netherlands</div>
+            </div>
+            <div class="about-body">
+              René has spent his career in enterprise software sales roles carrying a quota — not just as an advisor,
+              but as the person responsible for building pipeline and closing deals.
+              
+              He is known for combining <strong>strategic clarity</strong> with
+              <strong>calm, senior presence in the boardroom</strong>, helping both founders and buyers make better decisions.
+            </div>
+            <div class="about-tags">
+              <span class="about-tag">Enterprise SaaS &amp; procurement</span>
+              <span class="about-tag">Go-to-market strategy</span>
+              <span class="about-tag">Complex deal orchestration</span>
+              <span class="about-tag">Benelux &amp; Nordics focus</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-label="Client feedback">
+        <div class="section-title-wrap">
+          <div>
+            <div class="section-eyebrow">Client outcomes</div>
+            <h2 class="section-title">What partners value</h2>
+          </div>
+          <p class="section-subtitle">
+            A few examples of the kind of feedback and outcomes that typically emerge from SALESSHARE engagements.
+            (Real names and company details available in a 1:1 conversation.)
+          </p>
+        </div>
+
+        <div class="testimonials-grid">
+          <article class="quote-card">
+            <p>
+              “Within months, we went from ‘we should look at Benelux at some point’ to having strategic deals in
+              advanced stages with exactly the type of enterprises we wanted. René brought structure, focus,
+              and seniority to every interaction.”
+            </p>
+            <div class="quote-footer">
+              VP Sales, Series B SaaS scale-up
+              <span>North America → Benelux expansion</span>
+            </div>
+          </article>
+
+          <article class="quote-card">
+            <p>
+              “René helped us navigate complex procurement and legal discussions in a way that made both our team and
+              the customer feel in control. The result was a multi-year agreement that set the tone for the region.”
+            </p>
+            <div class="quote-footer">
+              Regional Director, Enterprise Software Vendor
+              <span>First strategic logo in the Netherlands</span>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section contact-section" id="contact">
+        <div class="contact-layout">
+          <div>
+            <div class="section-eyebrow">Next step</div>
+            <h2 class="section-title" style="margin-bottom: 0.4rem;">Share your growth challenge</h2>
+            <p class="section-subtitle" style="max-width: 32rem;">
+              If you are exploring Benelux or Nordics expansion, or want to accelerate enterprise traction in the region,
+              a short conversation is often the fastest way to understand whether we are a fit.
+            </p>
+            <p class="contact-note">
+              Use the form or reach out directly via LinkedIn.
+            </p>
+            <div style="margin-top: 0.7rem; font-size: 0.86rem; color: var(--text-muted);">
+              <div><strong>LinkedIn</strong>: <a href="https://www.linkedin.com/in/mrappeldorn/" style="color: #2563eb; text-decoration: none;">Connect with René</a></div>
+            </div>
+          </div>
+
+          <div>
+            <form>
+              <!-- Replace with your actual form handling or embed (e.g. HubSpot, Typeform) -->
+              <div>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Your name" />
+              </div>
+              <div>
+                <label for="company">Company</label>
+                <input type="text" id="company" name="company" placeholder="Company name" />
+              </div>
+              <div>
+                <label for="stage">Company stage</label>
+                <select id="stage" name="stage">
+                  <option value="" selected disabled>Select an option</option>
+                  <option>Seed</option>
+                  <option>Series A</option>
+                  <option>Series B</option>
+                  <option>Series C+</option>
+                  <option>Public / later-stage</option>
+                </select>
+              </div>
+              <div>
+                <label for="message">What would you like to discuss?</label>
+                <textarea id="message" name="message" placeholder="Briefly describe your product, current traction, and what you're hoping to achieve in Benelux &amp; Nordics."></textarea>
+              </div>
+              <div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 0.4rem;">
+                  <span>Send message</span>
+                  <span class="icon">➝</span>
+                </button>
+              </div>
+            </form>
+            <p class="contact-note">
+              By submitting, you agree that SALESSHARE may contact you about this inquiry. No mailing lists, no spam.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="footer-inner">
+        <div>
+          © <span id="year"></span> SALESSHARE. All rights reserved.
+        </div>
+        <div class="footer-links">
+          <a href="#top">Back to top</a>
+          <a href="#">Privacy</a>
+          <a href="#">Imprint</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    // Simple script to keep the footer year up to date
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Mobile navigation toggle + overlay
+    const navToggle = document.querySelector('.nav-toggle');
+    const navActions = document.querySelector('.nav-actions');
+    const overlay = document.querySelector('.mobile-overlay');
+
+    if (navToggle && navActions) {
+      navToggle.addEventListener('click', () => {
+        const isOpen = navActions.classList.toggle('nav-open');
+        navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        if (overlay) {
+          overlay.classList.toggle('open', isOpen);
+        }
+      });
+    }
+  </script>
+</body>
+</html>
